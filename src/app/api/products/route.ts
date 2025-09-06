@@ -3,33 +3,34 @@ import dbConnect from '@/lib/dbConnect';
 import Product from '@/lib/models/Product';
 import User from '@/lib/models/User';
 import { getServerSession } from 'next-auth';
-// CORRECTED IMPORT PATH BELOW
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 
 export async function GET(request: Request) {
   try {
     await dbConnect();
-    const products = await Product.find({})
-      .populate({
-        path: 'seller',
-        model: User,
-        select: 'username fullName',
-      })
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+    const searchQuery = searchParams.get('search');
+
+    const query: any = {};
+    if (category && category !== 'All') {
+      query.category = category;
+    }
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: searchQuery, $options: 'i' } },
+        { description: { $regex: searchQuery, $options: 'i' } },
+      ];
+    }
+
+    const products = await Product.find(query)
+      .populate({ path: 'seller', model: User, select: 'username fullName' })
       .sort({ createdAt: -1 });
 
-    return NextResponse.json(
-      {
-        message: 'Products fetched successfully!',
-        data: products,
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({ data: products }, { status: 200 });
   } catch (error) {
     console.error('GET_PRODUCTS_ERROR', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch products' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to fetch products' }, { status: 500 });
   }
 }
 

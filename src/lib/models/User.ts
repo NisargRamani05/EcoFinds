@@ -2,7 +2,6 @@ import { Schema, model, models } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
-  // NEW FIELD ADDED HERE
   fullName: {
     type: String,
     required: [true, 'Please provide your full name.'],
@@ -23,23 +22,28 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: [true, 'Please provide a password.'],
-    select: false, // This ensures the password isn't sent back in queries by default
+    select: false,
   },
   profileImage: {
     type: String,
-    default: '', // URL to the profile image
+    default: '',
   },
+  // --- THIS IS THE NEW FIELD FOR THE CART ---
+  cart: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Product', // This references the Product model
+    },
+  ],
 }, {
-  timestamps: true // Automatically adds createdAt and updatedAt fields
+  timestamps: true
 });
 
 // This function runs right before a user document is saved
 UserSchema.pre('save', async function (next) {
-  // Only hash the password if it has been modified (or is new)
   if (!this.isModified('password')) {
     return next();
   }
-  // Generate a salt and hash the password
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();
