@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent, useRef, useEffect } from 'react';
-import ChatBubble from './ChatBubble';
+// ChatBubble component is now defined within this file, so no import is needed.
 import { X, Send, Bot } from 'lucide-react'; // Import the Bot icon
 
 // Define the structure of a message
@@ -17,6 +17,28 @@ const WELCOME_MESSAGE: Message = {
     content: "Hi! I'm the EcoFinds assistant. How can I help you today? You can ask me about listing products, our policies, or anything else about the platform."
 };
 
+// ChatBubble component is now part of Chatbot.tsx to resolve the import error.
+interface ChatBubbleProps {
+  onClick: () => void;
+}
+
+function ChatBubble({ onClick }: ChatBubbleProps) {
+  return (
+    <button
+      onClick={onClick}
+      className="fixed bottom-6 right-6 bg-transparent w-16 h-16 rounded-full flex items-center justify-center shadow-lg focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 z-50"
+      aria-label="Open help chat"
+    >
+      <img
+        src="/Chat.gif" 
+        alt="Chatbot icon"
+        width={64}
+        height={64}
+        className="rounded-full"
+      />
+    </button>
+  );
+}
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,11 +104,11 @@ export default function Chatbot() {
     <div>
       {/* The Chat Window with Animation */}
       <div 
-        className={`fixed bottom-24 right-6 w-[calc(100vw-3rem)] sm:w-96 h-[60vh] sm:h-[32rem] bg-white rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ease-in-out
+        className={`fixed bottom-24 right-6 w-[calc(100vw-3rem)] sm:w-96 h-[60vh] sm:h-[32rem] bg-[#F2EDDE] rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ease-in-out
         ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}
       >
         {/* Enhanced Header */}
-        <div className="bg-black text-white p-4 rounded-t-lg flex justify-between items-center">
+        <div className="bg-[#A16E4B]/70 text-white p-4 rounded-t-lg flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Bot size={24} />
             <h2 className="font-bold text-lg">EcoFinds Help</h2>
@@ -100,8 +122,8 @@ export default function Chatbot() {
         <div className="flex-1 p-4 overflow-y-auto chat-messages">
           {messages.map((m) => {
             const messageClasses = {
-              user: 'bg-gray-200 text-gray-900',
-              assistant: 'bg-gray-100 text-gray-900',
+              user: 'bg-[#A16E4B]/70 text-white',
+              assistant: 'bg-white text-gray-900',
               error: 'bg-red-100 text-red-800 font-medium',
             };
             const alignmentClass = m.role === 'user' ? 'justify-end' : 'justify-start';
@@ -117,7 +139,7 @@ export default function Chatbot() {
           {/* New Typing Indicator */}
           {isLoading && (
             <div className="flex justify-start">
-                <div className="p-3 rounded-lg max-w-xs bg-gray-100">
+                <div className="p-3 rounded-lg max-w-xs bg-white">
                     <div className="flex items-center justify-center space-x-1">
                         <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.3s]"></span>
                         <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.15s]"></span>
@@ -130,7 +152,7 @@ export default function Chatbot() {
         </div>
         
         {/* Input Form */}
-        <form onSubmit={handleSubmit} className="p-4 border-t bg-white rounded-b-lg">
+        <form onSubmit={handleSubmit} className="p-4 border-t bg-[#F2EDDE] rounded-b-lg">
           <div className="flex items-center">
             <input
               className="input-style flex-1 !mt-0"
@@ -138,7 +160,7 @@ export default function Chatbot() {
               placeholder="Ask a question..."
               onChange={(e) => setInput(e.target.value)}
             />
-            <button type="submit" className="ml-2 p-2 bg-black text-white rounded-full transition-opacity hover:opacity-80 disabled:opacity-50" aria-label="Send message" disabled={isLoading}>
+            <button type="submit" className="ml-2 p-2 bg-[#A16E4B]/70 text-white rounded-full transition-opacity hover:opacity-80 disabled:opacity-50" aria-label="Send message" disabled={isLoading}>
               <Send size={20} />
             </button>
           </div>
@@ -150,3 +172,4 @@ export default function Chatbot() {
     </div>
   );
 }
+
