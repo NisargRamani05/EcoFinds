@@ -33,7 +33,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
         </div>
 
         {/* Right Column: Form Content */}
-        <div className="p-8 md:p-12">
+        <div className="p-8 md:p-12 bg-[#F2EDDE]/20">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

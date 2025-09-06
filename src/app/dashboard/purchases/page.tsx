@@ -39,9 +39,11 @@ export default function MyPurchasesPage() {
   if (isLoading || status === 'loading') {
     return (
       <>
+      <div className="bg-white/80 min-h-screen">
         <Navbar />
         <div className="text-center py-20 font-semibold text-[#A16E4B]/70">
           Loading Purchase History...
+        </div>
         </div>
       </>
     );

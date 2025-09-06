@@ -75,16 +75,19 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen bg-[url('/bg-img2.png')] bg-center">
+    <div className="min-h-screen bg-[url('/bg-img2.png')] bg-center">
       <div className="bg-white/80 min-h-screen">
         <DashboardLayout>
           <div className="max-w-2xl mx-auto bg-[#F2EDDE] p-8 rounded-lg shadow-md">
-            <h2 className="text-3xl text-[#A16E4B]/70 font-bold mb-6">Your Profile</h2>
+            <h2 className="text-3xl text-[#A16E4B]/70 font-bold mb-4">
+              Your Profile
+            </h2>
             <p className="text-[#A16E4B]/60 mb-8">
               Manage your account settings and personal information.
             </p>
 
-            <div className="bg-white/70 p-6 rounded-lg shadow-sm border mb-8">
+            {/* Profile Card */}
+            <div className="bg-white/70 p-6 rounded-lg shadow-sm border border-[#A16E4B]/20 mb-8">
               <div className="flex items-center gap-6">
                 <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-200 border-2 border-white shadow-md ring-2 ring-[#A16E4B]/30 flex-shrink-0 flex items-center justify-center">
                   <svg
@@ -104,11 +107,14 @@ export default function ProfilePage() {
                   <h3 className="text-xl font-semibold text-[#A16E4B]/80">
                     {session?.user?.fullName}
                   </h3>
-                  <p className="text-sm text-[#A16E4B]/60">{session?.user?.email}</p>
+                  <p className="text-sm text-[#A16E4B]/60">
+                    {session?.user?.email}
+                  </p>
                 </div>
               </div>
             </div>
 
+            {/* Profile Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
                 <label className="label-style">Full Name</label>
@@ -117,6 +123,7 @@ export default function ProfilePage() {
                   <p className="error-style">{errors.fullName.message}</p>
                 )}
               </div>
+
               <div>
                 <label className="label-style">Username</label>
                 <input {...register("username")} className="input-style" />
@@ -124,6 +131,7 @@ export default function ProfilePage() {
                   <p className="error-style">{errors.username.message}</p>
                 )}
               </div>
+
               <div>
                 <label className="label-style">Email</label>
                 <input
@@ -133,6 +141,7 @@ export default function ProfilePage() {
                   disabled
                 />
               </div>
+
               <Button
                 type="submit"
                 isLoading={isLoading}

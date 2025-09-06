@@ -32,11 +32,13 @@ export default function Navbar() {
   }, [status]);
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-40">
+    <header className="bg-t top-2 shadow-sm sticky top-0 z-40 backdrop-blur-xs">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-black">EcoFinds</Link>
+            <Link href="/" className="text-2xl font-bold text-black">
+              <img src="/logo-black.png" className="h-8"></img>
+            </Link>
           </div>
           <div className="flex items-center space-x-4">
             {status === 'loading' && <div className="w-24 h-8 bg-gray-200 rounded-md animate-pulse" />}
@@ -50,7 +52,7 @@ export default function Navbar() {
                 </button>
                 <Button 
                   onClick={openSignUpModal} 
-                  className="!w-auto !px-4 !py-2 !h-auto"
+                  className="!w-auto !px-4 !py-2 !h-auto !bg-[#A16E4B]/70 hover:!bg-[#F2EDDE] hover:!text-[#A16E4B]/70"
                 >
                   Sign Up
                 </Button>
@@ -58,7 +60,10 @@ export default function Navbar() {
             )}
             {status === 'authenticated' && session?.user && (
               <>
-                <span className="text-sm text-gray-700 hidden sm:block">Hi, {session.user.fullName}</span>
+
+                <Link href="/products/new">
+                   <Button className="!w-auto !px-4 !py-2 !h-auto !bg-[#A16E4B]/70 hover:!bg-[#F2EDDE] hover:!text-[#A16E4B]/70">Create Listing</Button>
+                </Link>
                 
                 <Link href="/cart" className="relative text-gray-600 hover:text-black p-2">
                   <ShoppingCart size={24} />
@@ -68,10 +73,7 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
-                
-                <Link href="/products/new">
-                   <Button className="!w-auto !px-4 !py-2 !h-auto !bg-gray-800">Create Listing</Button>
-                </Link>
+              
 
                 <Link href="/dashboard/profile" className="p-2 text-gray-600 hover:text-black">
                     <User size={24} />
@@ -79,7 +81,7 @@ export default function Navbar() {
 
                 <Button 
                   onClick={() => signOut()} 
-                  className="!w-auto !px-4 !py-2 !h-auto !bg-red-600 hover:!bg-red-700"
+                  className="!w-auto !px-4 !py-2 !h-auto !bg-red-600/60 hover:!bg-red-700/20"
                 >
                   Logout
                 </Button>
