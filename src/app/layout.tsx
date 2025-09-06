@@ -7,7 +7,6 @@ import Chatbot from '@/components/Chatbot'; // Import the Chatbot
 import { UIProvider } from './context/UIProvider';
 import AuthModals from '@/components/AuthModals';
 
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

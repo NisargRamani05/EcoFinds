@@ -32,7 +32,7 @@ export default function Navbar() {
   }, [status]);
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white shadow-sm sticky top-0 z-40">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
@@ -46,7 +46,18 @@ export default function Navbar() {
                   onClick={openLoginModal}
                   className="text-sm font-medium text-gray-700 hover:text-black"
                 >
+                <button 
+                  onClick={openLoginModal}
+                  className="text-sm font-medium text-gray-700 hover:text-black"
+                >
                   Log In
+                </button>
+                <Button 
+                  onClick={openSignUpModal} 
+                  className="!w-auto !px-4 !py-2 !h-auto"
+                >
+                  Sign Up
+                </Button>
                 </button>
                 <Button 
                   onClick={openSignUpModal} 
