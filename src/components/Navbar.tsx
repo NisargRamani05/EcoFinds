@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import Button from './ui/Button'; // We will use a modified Button
+import Button from './ui/Button';
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -35,6 +35,12 @@ export default function Navbar() {
                 <span className="text-sm text-gray-700 hidden sm:block">
                   Hi, {session.user.fullName}
                 </span>
+                
+                {/* This is the new link */}
+                <Link href="/dashboard/listings" className="text-sm font-medium text-gray-700 hover:text-black">
+                  My Listings
+                </Link>
+
                 <Link href="/products/new">
                    <Button className="!w-auto !px-4 !py-2 !h-auto !bg-gray-800">Create Listing</Button>
                 </Link>
