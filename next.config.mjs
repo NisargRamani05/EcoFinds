@@ -4,15 +4,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'encrypted-tbn3.gstatic.com',
-        port: '',
-        pathname: '/**',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
+        protocol: 'http',
+        hostname: '**',
       },
       {
         protocol: 'https',
