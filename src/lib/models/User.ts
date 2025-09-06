@@ -28,19 +28,22 @@ const UserSchema = new Schema({
     type: String,
     default: '',
   },
-  // --- THIS IS THE NEW FIELD FOR THE CART ---
   cart: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Product', // This references the Product model
+      ref: 'Product',
     },
   ],
 }, {
   timestamps: true
 });
 
-// This function runs right before a user document is saved
+// New pre-save hook to ensure username is always lowercase
 UserSchema.pre('save', async function (next) {
+  if (this.isModified('username')) {
+    this.username = this.username.toLowerCase();
+  }
+  
   if (!this.isModified('password')) {
     return next();
   }
@@ -49,11 +52,9 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
-// Method to compare entered password with the hashed password in the database
 UserSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// This prevents Mongoose from redefining the model every time in development
 const User = models.User || model('User', UserSchema);
 export default User;
