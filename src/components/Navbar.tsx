@@ -4,13 +4,12 @@ import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Button from './ui/Button';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, User } from 'lucide-react';
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [cartCount, setCartCount] = useState(0);
 
-  // Function to fetch the cart count from the API
   const fetchCartCount = () => {
     fetch('/api/cart')
       .then(res => res.json())
@@ -18,22 +17,16 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    // Only fetch and listen for events if the user is logged in
     if (status === 'authenticated') {
-      fetchCartCount(); // Fetch initial count on login/page load
-
-      // Set up a listener for our custom 'cartUpdated' event
+      fetchCartCount();
       window.addEventListener('cartUpdated', fetchCartCount);
-
-      // Clean up the listener when the component unmounts or user logs out
       return () => {
         window.removeEventListener('cartUpdated', fetchCartCount);
       };
     } else {
-      // If user logs out, reset the cart count to 0
-      setCartCount(0);
+        setCartCount(0);
     }
-  }, [status]); // This effect re-runs whenever the authentication status changes
+  }, [status]);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -53,8 +46,7 @@ export default function Navbar() {
             {status === 'authenticated' && session?.user && (
               <>
                 <span className="text-sm text-gray-700 hidden sm:block">Hi, {session.user.fullName}</span>
-                <Link href="/dashboard/listings" className="text-sm font-medium text-gray-700 hover:text-black">My Listings</Link>
-                <Link href="/products/new"><Button className="!w-auto !px-4 !py-2 !h-auto !bg-gray-800">Create Listing</Button></Link>
+                
                 <Link href="/cart" className="relative text-gray-600 hover:text-black p-2">
                   <ShoppingCart size={24} />
                   {cartCount > 0 && (
@@ -63,7 +55,21 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
-                <Button onClick={() => signOut()} className="!w-auto !px-4 !py-2 !h-auto !bg-red-600 hover:!bg-red-700">Logout</Button>
+                
+                <Link href="/products/new">
+                   <Button className="!w-auto !px-4 !py-2 !h-auto !bg-gray-800">Create Listing</Button>
+                </Link>
+
+                <Link href="/dashboard/profile" className="p-2 text-gray-600 hover:text-black">
+                    <User size={24} />
+                </Link>
+
+                <Button 
+                  onClick={() => signOut()} 
+                  className="!w-auto !px-4 !py-2 !h-auto !bg-red-600 hover:!bg-red-700"
+                >
+                  Logout
+                </Button>
               </>
             )}
           </div>

@@ -22,6 +22,15 @@ const nextConfig = {
       },
     ],
   },
+  // --- ADD THESE LINES TO FIX THE BUILD ERROR ---
+  compiler: {
+    swcMinify: true,
+  },
+  experimental: {
+    appDir: true,
+    typedRoutes: true,
+  },
+  // ---------------------------------------------
 };
 
 export default nextConfig;
