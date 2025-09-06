@@ -22,8 +22,8 @@ export default function CartPage() {
   const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCheckingOut, setIsCheckingOut] = useState(false); // State for checkout button
 
-  // Fetch cart items when the component mounts
   useEffect(() => {
     if (status === 'authenticated') {
       fetch('/api/cart')
@@ -36,7 +36,6 @@ export default function CartPage() {
     }
   }, [status, router]);
 
-  // Function to remove an item from the cart
   const handleRemoveFromCart = async (productId: string) => {
     try {
       const response = await fetch('/api/cart', {
@@ -44,11 +43,9 @@ export default function CartPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId }),
       });
-
       if (response.ok) {
         toast.success('Item removed from cart');
         setCartItems(prevItems => prevItems.filter(item => item._id !== productId));
-        // Dispatch event to update navbar count
         window.dispatchEvent(new Event('cartUpdated'));
       } else {
         toast.error('Failed to remove item.');
@@ -58,18 +55,34 @@ export default function CartPage() {
     }
   };
 
-  // Calculate the total price of items in the cart
+  // New function to handle the checkout process
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      const response = await fetch('/api/checkout', { method: 'POST' });
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(result.message);
+        setCartItems([]); // Visually clear the cart on the page
+        window.dispatchEvent(new Event('cartUpdated')); // Update navbar count to 0
+        router.push('/dashboard/purchases'); // Redirect to the new purchase history page
+      } else {
+        toast.error(result.message || 'Checkout failed. Please try again.');
+      }
+    } catch (error) {
+      toast.error('An error occurred during checkout.');
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
+
   const cartTotal = useMemo(() => {
     return cartItems.reduce((sum, item) => sum + item.price, 0);
   }, [cartItems]);
 
   if (isLoading || status === 'loading') {
-    return (
-        <>
-            <Navbar />
-            <div className="text-center py-20 font-semibold">Loading Your Cart...</div>
-        </>
-    );
+    return ( <> <Navbar /> <div className="text-center py-20 font-semibold">Loading Your Cart...</div> </> );
   }
 
   return (
@@ -87,18 +100,10 @@ export default function CartPage() {
                       <Image src={item.images[0]} alt={item.title} fill className="object-cover" />
                     </div>
                     <div className="flex-grow">
-                      <Link href={`/products/${item._id}`}>
-                        <h2 className="font-semibold text-lg text-gray-800 hover:underline">{item.title}</h2>
-                      </Link>
+                      <Link href={`/products/${item._id}`}><h2 className="font-semibold text-lg text-gray-800 hover:underline">{item.title}</h2></Link>
                       <p className="text-gray-600 font-bold mt-1">${item.price.toFixed(2)}</p>
                     </div>
-                    <button
-                      onClick={() => handleRemoveFromCart(item._id)}
-                      className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
-                      aria-label="Remove item"
-                    >
-                      <Trash2 size={20} />
-                    </button>
+                    <button onClick={() => handleRemoveFromCart(item._id)} className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full" aria-label="Remove item"><Trash2 size={20} /></button>
                   </li>
                 ))}
               </ul>
@@ -110,7 +115,7 @@ export default function CartPage() {
                   <span className="font-medium">Subtotal</span>
                   <span className="font-bold">${cartTotal.toFixed(2)}</span>
                 </div>
-                <Button className="w-full mt-4">
+                <Button onClick={handleCheckout} isLoading={isCheckingOut} className="w-full mt-4">
                   Proceed to Checkout
                 </Button>
               </div>
