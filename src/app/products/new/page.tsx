@@ -77,11 +77,12 @@ export default function NewProductPage() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen bg-[url('/bg-img2.png')] bg-center">
+      <div className="bg-white/80 min-h-screen">
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold mb-6">Create a New Listing</h1>
+        <div className="max-w-2xl mx-auto bg-[#F2EDDE] p-8 rounded-lg shadow-md">
+          <h1 className="text-3xl text-[#A16E4B]/70 font-bold mb-6">Create a New Listing</h1>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="title" className="label-style">Product Title</label>
@@ -99,11 +100,11 @@ export default function NewProductPage() {
               <div>
                 <label htmlFor="category" className="label-style">Category</label>
                 <select id="category" {...register('category')} className="input-style">
-                  <option value="Electronics">Electronics</option>
-                  <option value="Furniture">Furniture</option>
-                  <option value="Clothing">Clothing</option>
-                  <option value="Books">Books</option>
-                  <option value="Other">Other</option>
+                  <option value="Electronics" className="bg-[#A16E4B]/70">Electronics</option>
+                  <option value="Furniture" className="bg-[#A16E4B]/70">Furniture</option>
+                  <option value="Clothing" className="bg-[#A16E4B]/70">Clothing</option>
+                  <option value="Books" className="bg-[#A16E4B]/70">Books</option>
+                  <option value="Other" className="bg-[#A16E4B]/70">Other</option>
                 </select>
                 {errors.category && <p className="error-style">{errors.category.message}</p>}
               </div>
@@ -116,16 +117,17 @@ export default function NewProductPage() {
 
             <div>
               <label htmlFor="image" className="label-style">Image URL</label>
-              <input id="image" {...register('image')} className="input-style" placeholder="https://..." />
+              <input id="image" {...register('image')} className="input-style mx-2" placeholder="https://..." />
               {errors.image && <p className="error-style">{errors.image.message}</p>}
             </div>
 
-            <Button type="submit" isLoading={isLoading}>
+            <Button type="submit" isLoading={isLoading} className="!bg-[#A16E4B]/70 hover:!bg-[#F2EDDE] hover:!text-[#A16E4B]/70">
               List Product
             </Button>
           </form>
         </div>
       </main>
+      </div>  
     </div>
   );
 }

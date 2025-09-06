@@ -93,7 +93,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
           </div>
           {errors.password && <p className="error-style">{errors.password.message}</p>}
         </div>
-        <Button type="submit" isLoading={isLoading} className="!bg-green-600 hover:!bg-green-700">
+        <Button type="submit" isLoading={isLoading} className="!bg-[#A16E4B]/70 hover:!bg-[#F2EDDE] hover:!text-[#A16E4B]/70">
           Log In
         </Button>
       </form>

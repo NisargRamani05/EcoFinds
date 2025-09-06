@@ -59,7 +59,7 @@ export default function ProductDetailPage() {
   };
 
   if (!product || status === 'loading') {
-    return ( <> <Navbar /> <div className="text-center py-20">Loading product...</div> </> );
+    return ( <><div className='bg-white/80 min-h-screen'> <Navbar /> <div className="text-center py-20">Loading product...</div></div> </> );
   }
 
   // --- THIS IS THE NEW LOGIC ---
@@ -67,11 +67,12 @@ export default function ProductDetailPage() {
   const isOwner = session?.user?.id === product.seller._id;
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen bg-[url('/bg-img2.png')] bg-center ">
+      <div className="bg-white/80 min-h-screen">
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="w-full h-96 relative rounded-lg overflow-hidden shadow-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-[#F2EDDE]/60 border border-rounded-lg">
+          <div className="w-full h-96 relative rounded-lg overflow-hidden shadow-lg border-4">
              <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
           </div>
           <div className="flex flex-col justify-center">
@@ -91,14 +92,14 @@ export default function ProductDetailPage() {
               {isOwner ? (
                 // If the user is the owner, show a link to the edit page
                 <Link href={`/dashboard/listings/edit/${product._id}`}>
-                  <Button className="w-full flex items-center justify-center gap-2 !bg-gray-600 hover:!bg-gray-700">
+                  <Button className="w-full flex items-center justify-center gap-2 !bg-[#A16E4B]/70 hover:!bg-[#F2EDDE] hover:!text-[#A16E4B]/70">
                     <Edit size={20} />
                     Edit Your Listing
                   </Button>
                 </Link>
               ) : (
                 // Otherwise, show the "Add to Cart" button
-                <Button onClick={handleAddToCart} isLoading={isAddingToCart} className="w-full flex items-center justify-center gap-2">
+                <Button onClick={handleAddToCart} isLoading={isAddingToCart} className="w-full flex items-center justify-center gap-2 !bg-[#A16E4B]/70 hover:!bg-[#F2EDDE] hover:!text-[#A16E4B]/70 ">
                     <ShoppingCart size={20} />
                     Add to Cart
                 </Button>
@@ -107,6 +108,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </main>
+      </div>
     </div>
   );
 }

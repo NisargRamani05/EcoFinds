@@ -63,8 +63,10 @@ export default function MyListingsPage() {
   if (isLoading || status === 'loading') {
     return (
       <>
+      <div className='bg-white/80 min-h-screen'>
         <Navbar />
         <div className="text-center py-10">Loading your listings...</div>
+        </div>
       </>
     );
   }
