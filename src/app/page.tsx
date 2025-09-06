@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 import HomePageClient from './HomePageClient';
-// import Footer from '@/components/Footer'; 
+import Footer from '@/components/Footer'; 
 
 export default function HomePage() {
   return (
@@ -11,7 +11,7 @@ export default function HomePage() {
         <HomePageClient />
       </main>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
