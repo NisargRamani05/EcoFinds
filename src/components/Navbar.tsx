@@ -46,18 +46,7 @@ export default function Navbar() {
                   onClick={openLoginModal}
                   className="text-sm font-medium text-gray-700 hover:text-black"
                 >
-                <button 
-                  onClick={openLoginModal}
-                  className="text-sm font-medium text-gray-700 hover:text-black"
-                >
                   Log In
-                </button>
-                <Button 
-                  onClick={openSignUpModal} 
-                  className="!w-auto !px-4 !py-2 !h-auto"
-                >
-                  Sign Up
-                </Button>
                 </button>
                 <Button 
                   onClick={openSignUpModal} 
