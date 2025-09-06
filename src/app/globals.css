@@ -36,3 +36,24 @@ body {
     @apply mt-1 text-xs text-red-600;
   }
 }
+/* ... keep all your existing CSS and Tailwind imports ... */
+
+@layer utilities {
+  /* ... your existing utilities like .input-style ... */
+  
+  /* Custom Scrollbar for Chat Window */
+  .chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+  .chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}

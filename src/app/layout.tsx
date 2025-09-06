@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import AuthProvider from './context/AuthProvider';
-import { Toaster } from 'react-hot-toast'; // <-- 1. IMPORT TOASTER
+import { Toaster } from 'react-hot-toast';
+import Chatbot from '@/components/Chatbot'; // Import the Chatbot
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,8 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body className={inter.className}>
-          <Toaster position="top-center" /> {/* <-- 2. ADD TOASTER COMPONENT */}
+          <Toaster position="top-center" />
           {children}
+          <Chatbot /> {/* Add the Chatbot component here */}
         </body>
       </AuthProvider>
     </html>
