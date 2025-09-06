@@ -26,7 +26,7 @@ export default function HomePageClient() {
     if (selectedCategory !== 'All') params.append('category', selectedCategory);
     if (searchQuery) params.append('search', searchQuery);
 
-    fetch(`/api/products?${params.toString()}`)
+    fetch(/api/products?${params.toString()})
       .then(res => res.json())
       .then(data => setProducts(data.data || []))
       .catch(err => console.error("Failed to fetch products:", err))
