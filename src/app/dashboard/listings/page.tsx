@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
-import Link from 'next/link'; // Import the Link component
+import Link from 'next/link';
 import { Trash2, Edit } from 'lucide-react';
 
 interface Product {
@@ -62,55 +62,64 @@ export default function MyListingsPage() {
 
   if (isLoading || status === 'loading') {
     return (
-        <>
-            <Navbar />
-            <div className="text-center py-10">Loading your listings...</div>
-        </>
+      <>
+        <Navbar />
+        <div className="text-center py-10">Loading your listings...</div>
+      </>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold mb-8">My Listings</h1>
-        {listings.length > 0 ? (
-          <div className="space-y-4">
-            {listings.map((product) => (
-              <div key={product._id} className="flex items-center bg-white p-4 rounded-lg shadow-sm">
-                <div className="relative w-20 h-20 rounded-md overflow-hidden mr-4">
-                  <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
-                </div>
-                <div className="flex-grow">
-                  <h2 className="font-semibold text-lg">{product.title}</h2>
-                  <p className="text-gray-600">${product.price.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center space-x-3">
-                  {/* --- THIS IS THE CORRECTED CODE --- */}
-                  {/* The legacyBehavior prop and inner <a> tag have been removed. */}
-                  {/* All styles are now directly on the Link component. */}
-                  <Link
-                    href={`/dashboard/listings/edit/${product._id}`}
-                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
-                    aria-label="Edit listing"
-                  >
-                    <Edit size={20} />
-                  </Link>
+    <div className="bg-gray-50 min-h-screen bg-[url('/bg-img2.png')] bg-center">
+      <div className="bg-white/80 min-h-screen">
+        <Navbar />
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h1 className="text-3xl text-[#A16E4B]/70 font-bold mb-8">My Listings</h1>
+          {listings.length > 0 ? (
+            <div className="space-y-4">
+              {listings.map((product) => (
+                <div
+                  key={product._id}
+                  className="flex items-center bg-[#F2EDDE] p-4 rounded-lg shadow-md"
+                >
+                  <div className="relative w-20 h-20 rounded-md overflow-hidden mr-4">
+                    <Image
+                      src={product.images[0]}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-grow">
+                    <h2 className="font-semibold text-lg text-[#A16E4B]/80">
+                      {product.title}
+                    </h2>
+                    <p className="text-[#A16E4B]/60">${product.price.toFixed(2)}</p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Link
+                      href={`/dashboard/listings/edit/${product._id}`}
+                      className="p-2 text-[#A16E4B]/70 hover:text-[#A16E4B] hover:bg-[#F2EDDE]/70 rounded-full transition-colors"
+                      aria-label="Edit listing"
+                    >
+                      <Edit size={20} />
+                    </Link>
 
-                  <button
-                    onClick={() => handleDelete(product._id)}
-                    className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
-                  >
-                    <Trash2 size={20} />
-                  </button>
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="p-2 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-full transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>You have not listed any products yet.</p>
-        )}
-      </main>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[#A16E4B]/70">You have not listed any products yet.</p>
+          )}
+        </main>
+      </div>
     </div>
   );
 }

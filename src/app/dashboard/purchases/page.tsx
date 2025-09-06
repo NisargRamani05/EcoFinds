@@ -37,45 +37,75 @@ export default function MyPurchasesPage() {
   }, [status, router]);
 
   if (isLoading || status === 'loading') {
-    return ( <> <Navbar /> <div className="text-center py-20 font-semibold">Loading Purchase History...</div> </> );
+    return (
+      <>
+        <Navbar />
+        <div className="text-center py-20 font-semibold text-[#A16E4B]/70">
+          Loading Purchase History...
+        </div>
+      </>
+    );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold mb-8">My Purchase History</h1>
-        {purchases.length > 0 ? (
-          <div className="bg-white rounded-lg shadow-sm border">
-            <ul className="divide-y divide-gray-200">
-              {purchases.map((purchase) => (
-                <li key={purchase._id} className="p-4">
-                  <div className="flex items-center space-x-6">
-                    <div className="relative w-24 h-24 rounded-md overflow-hidden flex-shrink-0">
-                      <Image src={purchase.product.images[0]} alt={purchase.product.title} fill className="object-cover" />
+    <div className="bg-gray-50 min-h-screen bg-[url('/bg-img2.png')] bg-center">
+      <div className="bg-white/80 min-h-screen">
+        <Navbar />
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <h1 className="text-3xl font-bold mb-8 text-[#A16E4B]/70">
+            My Purchase History
+          </h1>
+
+          {purchases.length > 0 ? (
+            <div className="bg-[#F2EDDE] rounded-lg shadow-md border">
+              <ul className="divide-y divide-[#A16E4B]/20">
+                {purchases.map((purchase) => (
+                  <li
+                    key={purchase._id}
+                    className="p-6 hover:bg-white/70 transition duration-200"
+                  >
+                    <div className="flex items-center space-x-6">
+                      <div className="relative w-24 h-24 rounded-md overflow-hidden flex-shrink-0 shadow-md ring-2 ring-[#A16E4B]/20">
+                        <Image
+                          src={purchase.product.images[0]}
+                          alt={purchase.product.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-grow">
+                        <Link href={`/products/${purchase.product._id}`}>
+                          <h2 className="font-semibold text-lg text-[#A16E4B]/80 hover:underline">
+                            {purchase.product.title}
+                          </h2>
+                        </Link>
+                        <p className="text-[#A16E4B]/70 font-bold mt-1">
+                          ${purchase.product.price.toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-sm text-[#A16E4B]/50">Purchased on</p>
+                        <p className="font-medium text-[#A16E4B]/80">
+                          {new Date(purchase.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-grow">
-                      <Link href={`/products/${purchase.product._id}`}>
-                        <h2 className="font-semibold text-lg text-gray-800 hover:underline">{purchase.product.title}</h2>
-                      </Link>
-                      <p className="text-gray-600 font-bold mt-1">${purchase.product.price.toFixed(2)}</p>
-                    </div>
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-sm text-gray-500">Purchased on</p>
-                      <p className="font-medium text-gray-700">{new Date(purchase.createdAt).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <div className="text-center py-20 border-2 border-dashed rounded-lg">
-            <h2 className="text-xl font-semibold text-gray-700">No purchase history found.</h2>
-            <p className="text-gray-500 mt-2">You haven't purchased any items yet.</p>
-          </div>
-        )}
-      </main>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div className="text-center py-20 border-2 border-dashed rounded-lg bg-[#F2EDDE] shadow-md">
+              <h2 className="text-xl font-semibold text-[#A16E4B]/80">
+                No purchase history found.
+              </h2>
+              <p className="text-[#A16E4B]/60 mt-2">
+                You haven't purchased any items yet.
+              </p>
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
