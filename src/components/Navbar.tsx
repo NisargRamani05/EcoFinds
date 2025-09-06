@@ -5,10 +5,13 @@ import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Button from './ui/Button';
 import { ShoppingCart, User } from 'lucide-react';
+import { useUI } from '@/app/context/UIProvider';
+
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [cartCount, setCartCount] = useState(0);
+  const { openLoginModal, openSignUpModal } = useUI();
 
   const fetchCartCount = () => {
     fetch('/api/cart')
@@ -39,8 +42,18 @@ export default function Navbar() {
             {status === 'loading' && <div className="w-24 h-8 bg-gray-200 rounded-md animate-pulse" />}
             {status === 'unauthenticated' && (
               <>
-                <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-black">Log In</Link>
-                <Link href="/signup"><Button className="!w-auto !px-4 !py-2 !h-auto">Sign Up</Button></Link>
+                <button 
+                  onClick={openLoginModal}
+                  className="text-sm font-medium text-gray-700 hover:text-black"
+                >
+                  Log In
+                </button>
+                <Button 
+                  onClick={openSignUpModal} 
+                  className="!w-auto !px-4 !py-2 !h-auto"
+                >
+                  Sign Up
+                </Button>
               </>
             )}
             {status === 'authenticated' && session?.user && (
