@@ -52,8 +52,8 @@ Create a file named `.env.local` in the root directory:
    ```
 MONGODB_URI=your_mongodb_atlas_connection_string
 NEXTAUTH_SECRET=your_auth_secret
+NEXTAUTH_URL="http://localhost:3000"
 GEMINI_API_KEY=your_chat_api
-RESEND_API_KEY=generate_resend_api_key
    ```
 ### Run the Development Server
    ```
